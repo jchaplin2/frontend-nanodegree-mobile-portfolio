@@ -506,30 +506,31 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 var ticking = false;
 
-// Moves the sliding background pizzas based on scroll position
+var items = document.getElementsByClassName('mover');
+
 function updatePositions() {
   frame++;
-  /*
-  window.performance.mark("mark_start_frame");
-  */
-  var scrollTopVar = document.body.scrollTop ;
-  var items = document.getElementsByClassName('mover');
-  for (var i = 0, len = items.length, phase; i < len; i++) {
-    phase = Math.sin(scrollTopVar + (i % 5));
-    //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    items[i].style.left = 'translateX(' + (100 * phase) + 'px)';    
+  // window.performance.mark("mark_start_frame");
+
+  var scrollTopVar = document.body.scrollTop / 1250;
+  var phases = [];
+  for(var j=0; j<5; j++) {
+    phases[j] = Math.sin(scrollTopVar + (j % 5));
+  }
+
+  var cols = 8, s = 256;
+  for (var i = 0, len=items.length; i < len; i++) {
+    items[i].style.transform = 'translateX(' + (((i % cols) * s) + 100 * phases[i % 5]) + 'px)';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
-/*  
-  window.performance.mark("mark_end_frame");
-  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  if (frame % 10 === 0) {
-    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
-  }
-*/
+  // window.performance.mark("mark_end_frame");
+  // window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+  // if (frame % 10 === 0) {
+  //   var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+  //   logAverageFrame(timesToUpdatePosition);
+  // }
 }
 
 // runs updatePositions on scroll
@@ -544,24 +545,18 @@ window.addEventListener('scroll', function(e) {
   ticking = true;
 });
 
-
-// Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  var rows = 3;
-  var totalPizzas = rows * cols;
-  var movingPizzas = window.document.getElementById("movingPizzas1");
-  for (var i = 0, elem; i < totalPizzas; i++) {
+  var movingPizzas = window.document.getElementById("movingPizzas1");  
+  for (var i = 0, elem; i < 32; i++) {
     elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    //elem.basicLeft = (i % cols) * s;
-    elem.style.left = ((i % cols) * s)+"px";
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    elem.style.willChange = "scroll-position";
+    elem.style.willChange = "transform";
     movingPizzas.appendChild(elem);
   }
   updatePositions();
