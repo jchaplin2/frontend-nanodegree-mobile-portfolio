@@ -520,7 +520,8 @@ function updatePositions() {
 
   var cols = 8, s = 256;
   for (var i = 0, len=items.length; i < len; i++) {
-    items[i].style.transform = 'translateX(' + (((i % cols) * s) + 100 * phases[i % 5]) + 'px)';
+    items[i].style.transform = 'translateX(' + 100 * phases[i % 5] + 'px)';
+    //items[i].style.transform = 'translateX(' + (((i % cols) * s) + 100 * phases[i % 5]) + 'px)';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -556,6 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    elem.style.left = (i % cols) * s + 'px';
     elem.style.willChange = "transform";
     movingPizzas.appendChild(elem);
   }
