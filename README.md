@@ -30,10 +30,6 @@ Optimizations
 
 	main.js
 		-factored out loop variables for offsetWidth in changePizzaSizes and size that were being calc'd over and over.
-		-changed document.querySelectorAll to document.getElementById in the function changeSliderLabel.
 		-changed document.querySelectorAll to document.getElementsByClassName in the function changePizzaSizes.
-		-moved pizzasDiv out of creation for loop.
-		-in updatePositions function, moved variables in loop to for loop initialization.
 		-in updatePosotions function, factored out for loop for phase calculation.
 		-reduced number of pizzas created on init.
-		-commented out logging functions to decrease fps.

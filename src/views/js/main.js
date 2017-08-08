@@ -451,7 +451,7 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     console.log("size is : "+size);
-    var pizzaItems = window.document.getElementsByClassName("randomPizzaContainer")[0];
+    var pizzaItems = window.document.getElementsByClassName("randomPizzaContainer");
 
     var pizzaItemOffsetWidth = pizzaItems[0].offsetWidth;
     //pizza offsetWidth is same for all so factor out of loop.
@@ -510,7 +510,7 @@ var items = document.getElementsByClassName('mover');
 
 function updatePositions() {
   frame++;
-  // window.performance.mark("mark_start_frame");
+  window.performance.mark("mark_start_frame");
 
   var scrollTopVar = document.body.scrollTop / 1250;
   var phases = [];
@@ -525,12 +525,12 @@ function updatePositions() {
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
-  // window.performance.mark("mark_end_frame");
-  // window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  // if (frame % 10 === 0) {
-  //   var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-  //   logAverageFrame(timesToUpdatePosition);
-  // }
+  window.performance.mark("mark_end_frame");
+  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+  if (frame % 10 === 0) {
+     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+     logAverageFrame(timesToUpdatePosition);
+  }
 }
 
 // runs updatePositions on scroll
